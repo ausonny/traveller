@@ -1,0 +1,133 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  width: 180px;
+  margin: 1px;
+  height: 30px;
+}
+
+canvas {
+  width: 520px;
+  height: 520px;
+  display: block;
+}
+
+.challengebutton {
+  width: 180px;
+  margin: 1px;
+  height: 40px;
+}
+
+.achievementbutton {
+  width: 180px;
+  margin: 1px;
+  height: 50px;
+}
+
+
+.autobutton {
+  width: 25px;
+  margin: 1px;
+  height: 30px;
+}
+
+.sacbutton {
+  width: 180px;
+  margin: 1px;
+  height: 30px;
+}
+
+.minebutton {
+  width: 100px;
+  margin: 1px;
+  padding: 1px;
+  height: 50px;
+}
+
+.autoamountbutton {
+  width: 120px;
+  margin: 1px;
+  height: 30px;
+}
+
+.upgradebutton {
+  width: 245px;
+  margin: 1px;
+  height: 90px;
+}
+
+.tierbutton {
+  width: 30px;
+  margin: 1px;
+  height: 30px;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.text-small {
+  font-size: 90%;
+}
+
+.text-medium {
+  font-size: 100%;
+}
+
+.text-xlarge {
+  font-size: 200%;
+}
+
+.text-large {
+  font-size: 150%;
+}
+
+
+.text-xsmall {
+  font-size: 75%;
+}
+
+.prestigebutton {
+  width: 250px;
+  height: 100px;
+}
+
+.autobox {
+  width: 100px;
+}
+
+.resourceborder{
+  border: 1px solid #6c757d;
+  border-top:1px solid #6c757d;
+  border-bottom:25px solid #6c757d;
+  padding:3px 2px;
+}
+
+.noscrollbars {
+  overflow: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.noscrollbars::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.noscrollbars {
+    -ms-overflow-style: none;
+}
+
+@media (min-width: 576px) {
+  .rounded-nav {
+    border-radius: 50rem !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .rounded-nav .nav-link {
+    border-radius: 50rem !important;
+  }
+}

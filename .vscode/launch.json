@@ -8,7 +8,7 @@
         "NODE_ENV": "development"
       },
       "name": "Launch Program",
-      "program": "${workspaceFolder}/dist/app.js",
+      "program": "${workspaceFolder}/index.html",
       "outFiles": [
         "${workspaceFolder}/dist/*.js"
       ],

@@ -2,12 +2,13 @@
 
 export class App {
 
-  version: string;
-
-  constructor() {
-    console.log('Awesome App is running!');
+    version: string;
+  
+    constructor() {
+      console.log('Awesome App is running!');
+    }
+  
   }
-
-}
-
-const app = new App();
+  
+  const app = new App();
+  

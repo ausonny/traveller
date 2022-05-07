@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="interface.css" />
+    <title>Travellers</title>
+    <meta name="description" content="Travellers" />
+    <meta name="author" content="ausonny" />
+  </head>
+  <body style="background-color: black" class="overflow-hidden" onload="putEmail();">
+    <noscript>
+      <div id="checkJavascript" style="position: absolute; height: 100%; width: 100%; font-size: 2vw; padding: 10%; color: white; background-color: black; z-index: 1000000">
+        For some reason, your browser is having trouble loading this game. This game runs on javascript, and if you have an addon such as noscript, you may need to tell it to allow scripts from http://ausonny.github.io, which is where this
+        game is hosted.<br /><br />
+        If you are not using any addons that might interfere with javascript, try using the latest versions of Chrome or Firefox.
+      </div>
+    </noscript>
+    <div class="container">
+      <div class="row p-0 m-0 border border-secondary rounded text-light">
+        <div class="col-md-12 p-0 m-0 text-small">
+          <div id="prestige1button" class="row p-0 m-0 rounded bg-dark text-light">
+            <button class="button prestigebutton text-center bg-success" type="button" id="btnPrestige1" onclick="prestige1()">Prestige</button>
+            <button class="button prestigebutton text-center bg-success" type="button" id="btnPrestige2" onclick="prestige2()">Prestige</button>
+            <button class="button prestigebutton text-center bg-success" type="button" id="btnPrestige3" onclick="prestige3()">Prestige</button>
+          </div>
+        </div>
+      </div>
+      <div class="row p-0 m-0 border border-dark rounded bg-dark text-light">
+        <span id="activeChallengeDescription"></span><button class="btn btn-sm btn-primary hidden" id="btnChallengeQuit" type="button" onclick="quitChallenges()">Quit</button>
+      </div>
+      <div class="row p-0 m-0 border border-secondary rounded text-light">
+        <div class="col-md-3 p-0 m-0">
+          <div class="row p-0 m-0 text-light">
+            <div class="col-md-12">Metal: <span id="metal">0</span></div>
+          </div>
+          <div class="row p-0 m-0 text-light">
+            <div class="col-md-12">Dust: <span id="dust">0</span></div>
+          </div>
+          <div class="row p-0 m-0 text-light">
+            <div class="col-md-12">Pebbles: <span id="pebbles">0</span></div>
+          </div>
+          <div class="row p-0 m-0 text-light">
+            <div class="col-md-12">Rocks: <span id="rocks">0</span></div>
+          </div>
+          <div class="row p-0 m-0 text-light">
+            <div class="col-md-12">Boulders: <span id="boulders">0</span></div>
+          </div>
+          <div id="WaveInfo" class="bg-secondary border border-dark rounded">
+            <div id="tierinfo" class="row p-0 m-0 tierinfo">
+              <div class="col-md-12">
+                <button class="tierbutton text-center btn-danger" type="button" id="btntierdown" onclick="changeTier('Down')">-</button>
+                Tier: <span id="currenttier">0</span>
+                <button class="tierbutton text-center btn-success" type="button" id="btntierup" onclick="changeTier('Up')">+</button>
+              </div>
+            </div>
+          </div>
+          <div id="TowerStats" class="bg-primary text-light border border-secondary rounded">
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Attack: <span id="towerAttack">0</span></div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Shoots: <span id="towerticks">0</span>/s</div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Range: <span id="towerRange">0</span></div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Hit Points: <span id="towerHitPoints">0</span></div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Heal: <span id="towerHeal">0</span></div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Defense: <span id="towerDefense">0</span></div>
+            </div>
+          </div>
+          <div id="EnemyInfo" class="bg-danger border-dark rounded">
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Enemy Drone Attack: <span id="enemyAttack">0</span></div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-md-12">Enemy Drone HP: <span id="enemyHitPoints">0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 p-0 m-0">
+          <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+            <div class="col-md-12 text-center">
+              <canvas id="gameBoard" class="myCanvas" height="520" width="520" style="object-fit: contain; background-color: black">
+                <p>You may have more fun with a more modern browser. Chrome, Firefox, or Safari for instance</p>
+              </canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 p-0 m-0">
+          <div class="border border-secondary rounded p-0 m-0 container text-medium overflow-auto text-light" style="height: 520px; background-color: black" id="textToDisplay"></div>
+        </div>
+      </div>
+      <div class="row p-0 m-0 border border-secondary rounded bg-dark text-light text-center">
+        <div class="col-md-12"></div>
+      </div>
+      <div class="row p-0 m-0 border border-secondary rounded bg-dark text-light">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="resources-tab" data-toggle="tab" href="#resourcestab" role="tab" aria-controls="resources" aria-selected="true">Resources</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tower-tab" data-toggle="tab" href="#towertab" role="tab" aria-controls="tower" aria-selected="false">Tower</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="upgrades-tab" data-toggle="tab" href="#upgradestab" role="tab" aria-controls="upgrades" aria-selected="false">Upgrades</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="challenges-tab" data-toggle="tab" href="#challengestab" role="tab" aria-controls="challenges" aria-selected="false">Challenges</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="automation-tab" data-toggle="tab" href="#automationtab" role="tab" aria-controls="automation" aria-selected="false">Automation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="achievement-tab" data-toggle="tab" href="#achievementtab" role="tab" aria-controls="achievement" aria-selected="false">Achievement</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statisticstab" role="tab" aria-controls="statistics" aria-selected="false">Statistics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="options-tab" data-toggle="tab" href="#optionstab" role="tab" aria-controls="options" aria-selected="false">Options</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active px-0 py-0 overflow-auto" style="height: 400px" id="resourcestab" role="tabpanel" aria-labelledby="resources-tab">
+              <div class="row p-0 m-0 bg-dark text-light">
+                <div class="col-md-12 text-left">
+                  <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="metal-tab" data-toggle="tab" href="#metaltab" role="tab" aria-controls="metal" aria-selected="true">Metal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="particles-tab" data-toggle="tab" href="#particles" role="tab" aria-controls="particles" aria-selected="false">Particles</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="time-tab" data-toggle="tab" href="#time" role="tab" aria-controls="timeparticles" aria-selected="false">Time</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContentresources">
+                    <div class="tab-pane fade show active" id="metaltab" role="tabpanel" aria-labelledby="metal-tab">
+                      <div id="labelsderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Name</div>
+                          <div class="col-md-2 text-left"></div>
+                          <div class="col-md-3 text-left"></div>
+                          <div class="col-md-3 text-center">Buy</div>
+                          <div class="col-md-3 text-center">Upgrade</div>
+                        </div>
+                      </div>
+                      <div id="productionderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Production Bonus</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="productionbought">0</span><br />
+                            Owned:<span id="productionowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Production Multiplier: <span id="producitonproduction">0</span>x<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyProduction" onclick="gameData.producer.buy(new JBDecimal(1))">Miner</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyProductionDustUpgrade" onclick="gameData.producer.buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="minerderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Miners</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="minerbought">0</span><br />
+                            Owned:<span id="minerowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="minerproduction">0</span> Metal /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyMiner" onclick="gameData.derivatives[0].buy(new JBDecimal(1))">Miner</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyMinerDustUpgrade" onclick="gameData.derivatives[0].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="supervisorderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Supervisor</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="supervisorbought">0</span><br />
+                            Owned:<span id="supervisorowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="supervisorproduction">0</span> Miners /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuySupervisor" onclick="gameData.derivatives[1].buy((new JBDecimal(1)))">Supervisor</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuySupervisorDustUpgrade" onclick="gameData.derivatives[1].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="foremanderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Foreman</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="foremanbought">0</span><br />
+                            Owned:<span id="foremanowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="foremanproduction">0</span> Supervisors /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyForeman" onclick="gameData.derivatives[2].buy((new JBDecimal(1)))">Foreman</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyForemanDustUpgrade" onclick="gameData.derivatives[2].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="managerderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Manager</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="managerbought">0</span><br />
+                            Owned:<span id="managerowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="managerproduction">0</span> Foremen /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyManager" onclick="gameData.derivatives[3].buy((new JBDecimal(1)))">Foreman</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyManagerDustUpgrade" onclick="gameData.derivatives[3].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="middlemanagementderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Middle Management</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="middlemanagementbought">0</span><br />
+                            Owned:<span id="middlemanagementowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="middlemanagementproduction">0</span> Managers /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyMiddleManagement" onclick="gameData.derivatives[4].buy((new JBDecimal(1)))">Middle Manager</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyMiddleManagerDustUpgrade" onclick="gameData.derivatives[4].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="uppermanagementderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Upper Management</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="uppermanagementbought">0</span><br />
+                            Owned:<span id="uppermanagementowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="uppermanagementproduction">0</span> Middle Management /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyUpperManagement" onclick="gameData.derivatives[5].buy((new JBDecimal(1)))">Upper Management</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyUpperManagementDustUpgrade" onclick="gameData.derivatives[5].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="vicepresidentderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Vice President</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="vicepresidentbought">0</span><br />
+                            Owned:<span id="vicepresidentowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="vicepresidentproduction">0</span> Upper Management /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyVicePresident" onclick="gameData.derivatives[6].buy((new JBDecimal(1)))">Foreman</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyVicePresidentDustUpgrade" onclick="gameData.derivatives[6].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="presidentderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">President</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="presidentbought">0</span><br />
+                            Owned:<span id="presidentowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">+ <span id="presidentproduction">0</span> Vice President /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyPresident" onclick="gameData.derivatives[7].buy((new JBDecimal(1)))">Foreman</button>
+                          </div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyPresidentDustUpgrade" onclick="gameData.derivatives[7].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="particles" role="tabpanel" aria-labelledby="particles-tab">
+                      <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                        <div class="col-md-12 text-left"><span id="particlesamount">0</span> particles give a <span id="particlesb">0</span>x bonus to metal production</div>
+                      </div>
+                      <div id="labels2derivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Name</div>
+                          <div class="col-md-2 text-left"></div>
+                          <div class="col-md-3 text-left"></div>
+                          <div class="col-md-3 text-center">Buy</div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="speedderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Speed</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="speedbought">0</span><br />
+                            Owned:<span id="speedowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="speedproduction">0</span> Particles /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuySpeed" onclick="gameData.speedDerivatives[0].buy(new JBDecimal(1))">Speed</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="accelerationderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Acceleration</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="accelerationbought">0</span><br />
+                            Owned:<span id="accelerationowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="accelerationproduction">0</span> Speed /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyAcceleration" onclick="gameData.speedDerivatives[1].buy((new JBDecimal(1)))">Acceleration</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="jerkderivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Jerk</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="jerkbought">0</span><br />
+                            Owned:<span id="jerkowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="jerkproduction">0</span> Acceleration /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyJerk" onclick="gameData.speedDerivatives[2].buy((new JBDecimal(1)))">Jerk</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="snapderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Snap</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="snapbought">0</span><br />
+                            Owned:<span id="snapowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="snapproduction">0</span> Jerk /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuySnap" onclick="gameData.speedDerivatives[3].buy((new JBDecimal(1)))">Snap</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="cracklederivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Crackle</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="cracklebought">0</span><br />
+                            Owned:<span id="crackleowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="crackleproduction">0</span> Snap /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyCrackle" onclick="gameData.speedDerivatives[4].buy((new JBDecimal(1)))">Crackle</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="popderivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Pop</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="popbought">0</span><br />
+                            Owned:<span id="popowned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="popproduction">0</span> Crackle /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyPop" onclick="gameData.speedDerivatives[5].buy((new JBDecimal(1)))">Pop</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
+                      <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                        <div class="col-md-12 text-left"><span id="timeparticles">0</span> particles give a <span id="timeparticlesbonus">0</span>x bonus to time</div>
+                      </div>
+                      <div id="labels2derivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Name</div>
+                          <div class="col-md-2 text-left"></div>
+                          <div class="col-md-3 text-left"></div>
+                          <div class="col-md-3 text-center">Buy</div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time1derivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 1</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time1bought">0</span><br />
+                            Owned:<span id="time1owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time1production">0</span> Time Particles /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime1" onclick="gameData.timeDerivatives[0].buy(new JBDecimal(1))">Speed</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time2derivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 2</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time2bought">0</span><br />
+                            Owned:<span id="time2owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time2production">0</span> Time 1 /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime2" onclick="gameData.timeDerivatives[1].buy((new JBDecimal(1)))">Acceleration</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time3derivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 3</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time3bought">0</span><br />
+                            Owned:<span id="time3owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time3production">0</span> Time 2 /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime3" onclick="gameData.timeDerivatives[2].buy((new JBDecimal(1)))">Jerk</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time4derivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 4</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time4bought">0</span><br />
+                            Owned:<span id="time4owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time4production">0</span> Time 3 /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime4" onclick="gameData.timeDerivatives[3].buy((new JBDecimal(1)))">Snap</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time5derivative">
+                        <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 5</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time5bought">0</span><br />
+                            Owned:<span id="time5owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time5production">0</span> Time 4 /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime5" onclick="gameData.timeDerivatives[4].buy((new JBDecimal(1)))">Crackle</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                      <div id="time6derivative">
+                        <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                          <div class="col-md-1 text-left">Time 6</div>
+                          <div class="col-md-2 text-left">
+                            Bought:<span id="time6bought">0</span><br />
+                            Owned:<span id="time6owned">0</span><br />
+                          </div>
+                          <div class="col-md-3 text-left">Producing: <span id="time6production">0</span> Time 5 /s<br /></div>
+                          <div class="col-md-3 text-center">
+                            <button class="button text-center" type="button" id="btnBuyTime6" onclick="gameData.timeDerivatives[5].buy((new JBDecimal(1)))">Pop</button>
+                          </div>
+                          <div class="col-md-3 text-center"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px" id="towertab" role="tabpanel" aria-labelledby="tower-tab">
+              <div id="labelequipment">
+                <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                  <div class="col-md-2 text-left">Name</div>
+                  <div class="col-md-2 text-left"></div>
+                  <div class="col-md-2 text-left"></div>
+                  <div class="col-md-3 text-center">Buy</div>
+                  <div class="col-md-3 text-center">Upgrade</div>
+                </div>
+              </div>
+              <div id="attackequipment">
+                <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                  <div class="col-md-2 text-left">Attack</div>
+                  <div class="col-md-2 text-left">Bought:<span id="attackbought">0</span><br /></div>
+                  <div class="col-md-2 text-left">Add <span id="attackproducing">0</span> to Attack<br /></div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyAttack" onclick="gameData.equipment[0].buy(new JBDecimal(1))">Attack</button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyAttackDustUpgrade" onclick="gameData.equipment[0].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                  </div>
+                </div>
+              </div>
+              <!-- <div id="speedequipment">
+                <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                  <div class="col-md-2 text-left">Firing Computer</div>
+                  <div class="col-md-2 text-left">Bought:<span id="speedequipmentbought">0</span><br /></div>
+                  <div class="col-md-2 text-left">Add <span id="speedequipmentproducing">0</span> to speed<br /></div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyShootingSpeed" onclick="gameData.equipment[5].buy(new JBDecimal(1))">Attack</button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                  </div>
+                </div>
+              </div>
+              <div id="rangeequipment">
+                <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                  <div class="col-md-2 text-left">Range Computer</div>
+                  <div class="col-md-2 text-left">Bought:<span id="rangebought">0</span><br /></div>
+                  <div class="col-md-2 text-left">Add <span id="rangeproducing">0</span> to Range<br /></div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyRange" onclick="gameData.equipment[4].buy(new JBDecimal(1))">Attack</button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                  </div>
+                </div>
+              </div> -->
+              <div id="healthequipment">
+                <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                  <div class="col-md-2 text-left">Hull Strength</div>
+                  <div class="col-md-2 text-left">Bought:<span id="hullbought">0</span></div>
+                  <div class="col-md-2 text-left">Add <span id="hullproducing">0</span> to Hit Points</div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyHull" onclick="gameData.equipment[1].buy(new JBDecimal(1))"></button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyHullDustUpgrade" onclick="gameData.equipment[1].buyUpgrade(new JBDecimal(1))">Upgrade</button>
+                  </div>
+                </div>
+              </div>
+              <!-- <div id="healequipment">
+                <div class="row p-0 m-0 bg-secondary text-light text-xsmall">
+                  <div class="col-md-2 text-left">Heal</div>
+                  <div class="col-md-2 text-left">Bought:<span id="healbought">0</span></div>
+                  <div class="col-md-2 text-left">Add <span id="healproducing">0</span> /s healing</div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyHeal" onclick="gameData.equipment[3].buy(new JBDecimal(1))"></button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                  </div>
+                </div>
+              </div>
+              <div id="shieldequipment">
+                <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                  <div class="col-md-2 text-left">Shield</div>
+                  <div class="col-md-2 text-left">Bought:<span id="shieldbought">0</span></div>
+                  <div class="col-md-2 text-left">Add <span id="shieldproducing">0</span> Defense</div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyShield" onclick="gameData.equipment[2].buy(new JBDecimal(1))"></button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div id="critequipment">
+                <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                  <div class="col-md-2 text-left">Critical Attacks</div>
+                  <div class="col-md-2 text-left">Bought:<span id="critbought">0</span></div>
+                  <div class="col-md-2 text-left">Add <span id="critproducing">0</span> Defense</div>
+                  <div class="col-md-3 text-center">
+                    <button class="button text-center" type="button" id="btnBuyCrit" onclick="gameData.equipment[6].buy(new JBDecimal(1))"></button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="tab-pane fade px-0 py-0" id="upgradestab" role="tabpanel" aria-labelledby="upgrades-tab">
+              <div class="row p-0 m-0 bg-dark text-light overflow-auto" style="height: 400px">
+                <div class="col-md-12 text-left">
+                  <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pebbleupgrades-tab" data-toggle="tab" href="#pebbleupgrades" role="tab" aria-controls="pebbleupgrades" aria-selected="true">Pebble Upgrades</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="rockupgrades-tab" data-toggle="tab" href="#rockupgrades" role="tab" aria-controls="rockupgrades" aria-selected="false">Rock Upgrades</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="boulderupgrades-tab" data-toggle="tab" href="#boulderupgrades" role="tab" aria-controls="boulderupgrades" aria-selected="false">Boulder Upgrades</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContentupgrades">
+                    <div class="tab-pane fade show active" id="pebbleupgrades" role="tabpanel" aria-labelledby="pebbleupgrades-tab">
+                      <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                        <div class="col-md-12 text-center">
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade13" onclick="gameData.upgrades[13].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade14" onclick="gameData.upgrades[14].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade15" onclick="gameData.upgrades[15].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade16" onclick="gameData.upgrades[16].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade3" onclick="gameData.upgrades[3].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade4" onclick="gameData.upgrades[4].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade5" onclick="gameData.upgrades[5].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade17" onclick="gameData.upgrades[17].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade6" onclick="gameData.upgrades[6].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade12" onclick="gameData.upgrades[12].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade0" onclick="gameData.upgrades[0].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade1" onclick="gameData.upgrades[1].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade2" onclick="gameData.upgrades[2].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade7" onclick="gameData.upgrades[7].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade8" onclick="gameData.upgrades[8].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade9" onclick="gameData.upgrades[9].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade10" onclick="gameData.upgrades[10].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyUpgrade11" onclick="gameData.upgrades[11].buy()">Upgrade</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="rockupgrades" role="tabpanel" aria-labelledby="rockupgrades-tab">
+                      <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                        <div class="col-md-12 text-center">
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade0" onclick="gameData.rockUpgrades[0].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade1" onclick="gameData.rockUpgrades[1].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade2" onclick="gameData.rockUpgrades[2].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade3" onclick="gameData.rockUpgrades[3].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade4" onclick="gameData.rockUpgrades[4].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade8" onclick="gameData.rockUpgrades[8].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade9" onclick="gameData.rockUpgrades[9].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade10" onclick="gameData.rockUpgrades[10].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade5" onclick="gameData.rockUpgrades[5].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade6" onclick="gameData.rockUpgrades[6].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade7" onclick="gameData.rockUpgrades[7].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade11" onclick="gameData.rockUpgrades[11].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade12" onclick="gameData.rockUpgrades[12].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyRockUpgrade13" onclick="gameData.rockUpgrades[13].buy()">Upgrade</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="boulderupgrades" role="tabpanel" aria-labelledby="boulderupgrades-tab">
+                      <div class="row p-0 m-0 bg-dark text-light text-xsmall">
+                        <div class="col-md-12 text-center">
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyBoulderUpgrade0" onclick="gameData.boulderUpgrades[0].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyBoulderUpgrade1" onclick="gameData.boulderUpgrades[1].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyBoulderUpgrade2" onclick="gameData.boulderUpgrades[2].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyBoulderUpgrade3" onclick="gameData.boulderUpgrades[3].buy()">Upgrade</button>
+                          <button class="button upgradebutton text-center" type="button" id="btnBuyBoulderUpgrade4" onclick="gameData.boulderUpgrades[4].buy()">Upgrade</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px" id="challengestab" role="tabpanel" aria-labelledby="challenges-tab">
+              <div class="row p-0 m-0 bg-dark text-light text-small">
+                <div class="col-md-12 text-center">
+                  <div class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Challenge Name</div>
+                    <div class="col-md-3 p-0 m-0 text-center">Description</div>
+                    <div class="col-md-3 p-0 m-0 text-center">Bonus</div>
+                    <div class="col-md-1 p-0 m-0 text-center">Completed / Limit</div>
+                    <div class="col-md-2 p-0 m-0 text-center">Wave Needed for next completion</div>
+                    <div class="col-md-2 p-0 m-0 text-center">Actions</div>
+                  </div>
+                  <div class="row p-0 m-0 bg-dark text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Inflation</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge0Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge0Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge0Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge0DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge0Start" type="button" onclick="gameData.challenges[0].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Production</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge3Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge3Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge3Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge3DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge3Start" type="button" onclick="gameData.challenges[3].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div id="healchallenge" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Heal</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge2Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge2Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge2Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge2DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge2Start" type="button" onclick="gameData.challenges[2].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Shooting Speed</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge5Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge5Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge5Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge5DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge5Start" type="button" onclick="gameData.challenges[5].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div id="shieldchallenge" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Defenses</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge1Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge1Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge1Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge1DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge1Start" type="button" onclick="gameData.challenges[1].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div id="rangechallenge" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Range</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge4Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge4Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge4Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge4DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge4Start" type="button" onclick="gameData.challenges[4].setActive()">Start</button>
+                    </div>
+                  </div>
+                  <div id="critchallenge" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                    <div class="col-md-1 p-0 m-0 text-center">Range</div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge6Description"></span>
+                    </div>
+                    <div class="col-md-3 p-0 m-0 text-center">
+                      <span id="challenge6Bonus"></span>
+                    </div>
+                    <div class="col-md-1 p-0 m-0 text-center">
+                      <span id="challenge6Completed"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <span id="challenge6DustNeeded"></span>
+                    </div>
+                    <div class="col-md-2 p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-primary challengebutton" id="btnChallenge6Start" type="button" onclick="gameData.challenges[6].setActive()">Start</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="automationtab" role="tabpanel" aria-labelledby="automation-tab" class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px">
+              <div class="row p-0 m-0 bg-secondary text-light text-small text-center"><input type="checkbox" id="autoprestige1" class="p-0 m-0 text-light bg-dark" checked="false" />Auto Prestige on death</div>
+              <div id="auto1" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">1</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation1item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation1value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto2" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">2</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation2item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation2value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto3" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">3</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation3item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation3value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto4" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">4</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation4item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation4value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto5" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">5</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation5item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation5value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto6" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">6</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation6item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation6value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto7" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">7</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation7item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation7value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto8" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">8</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation8item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation8value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto9" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">9</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation9item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation9value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto10" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">10</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation10item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation10value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto11" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">11</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation11item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation11value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto12" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">12</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation12item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation12value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto13" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">13</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation13item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation13value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto14" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">14</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation14item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation14value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto15" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">15</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation15item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation15value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto16" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">16</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation16item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation16value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto17" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">17</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation17item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation17value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto18" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">18</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation18item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation18value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto19" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">19</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation19item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation19value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto20" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">20</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation20item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation20value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto21" class="row p-0 m-0 bg-secondary text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">21</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation21item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation21value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+              <div id="auto22" class="row p-0 m-0 bg-dark text-light text-small text-center">
+                <div class="col-md-1 p-0 m-0 text-center">22</div>
+                <div class="col-md-3 p-0 m-0 text-center">
+                  <select id="automation22item">
+                    <option value="0">None</option>
+                    <option value="1">Production Bonus</option>
+                    <option value="2">Miner</option>
+                    <option value="3">Supervisor</option>
+                    <option value="4">Foreman</option>
+                    <option value="5">Manager</option>
+                    <option value="6">Middle Manager</option>
+                    <option value="7">Upper Management</option>
+                    <option value="8">Vice President</option>
+                    <option value="9">President</option>
+                    <option value="10">Production Bonus Dust Upgrade</option>
+                    <option value="11">Miner Dust Upgrade</option>
+                    <option value="12">Supervisor Dust Upgrade</option>
+                    <option value="13">Foreman Dust Upgrade</option>
+                    <option value="14">Manager Dust Upgrade</option>
+                    <option value="15">Middle Manager Dust Upgrade</option>
+                    <option value="16">Upper Management Dust Upgrade</option>
+                    <option value="17">Vice President Dust Upgrade</option>
+                    <option value="18">President Dust Upgrade</option>
+                    <option value="19">Attack</option>
+                    <option value="20">Hull Strength</option>
+                    <option value="21">Attack Dust Upgrade</option>
+                    <option value="22">Hull Strength Dust Upgrade</option>
+                  </select>
+                </div>
+                <div class="col-md-2 p-0 m-0 text-center">
+                  <select id="automation22value">
+                    <option value="0">0.1</option>
+                    <option value="1">1</option>
+                    <option value="2">10</option>
+                    <option value="3">25</option>
+                    <option value="4">50</option>
+                    <option value="5">99</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div id="achievementtab" role="tabpanel" aria-labelledby="achievement-tab" class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px">
+              <div class="row p-0 m-0 text-light text-center">
+                <div class="col-md-12 p-0 m-0 text-xlarge text-center">Total Bonus: <span id="totalachievementbonus">0</span>x</div>
+              </div>
+              <div class="row p-0 m-0 text-light text-center">
+                <div class="col-md-12 p-0 m-0 text-large text-center">Achievement Bonus: <span id="achievementbonus">0</span>x</div>
+              </div>
+              <div class="row p-0 m-0 text-light text-xsmall text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement1" type="button" onclick="AchievementClick()">Buy first Miner</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement2" type="button" onclick="AchievementClick()">Buy tenth Miner</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement3" type="button" onclick="AchievementClick()">Buy twenty fifth Miner</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement4" type="button" onclick="AchievementClick()">Buy fiftieth Miner</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement5" type="button" onclick="AchievementClick()">Buy one hundredth Miner</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement6" type="button" onclick="AchievementClick()">Buy first Supervisor</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement7" type="button" onclick="AchievementClick()">Buy tenth Supervisor</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement8" type="button" onclick="AchievementClick()">Buy twenty fifth Supervisor</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement9" type="button" onclick="AchievementClick()">Buy fiftieth Supervisor</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement10" type="button" onclick="AchievementClick()">Buy one hundredth Supervisor</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement11" type="button" onclick="AchievementClick()">Buy first Foreman</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement12" type="button" onclick="AchievementClick()">Buy tenth Foreman</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement13" type="button" onclick="AchievementClick()">Buy twenty fifth Foreman</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement14" type="button" onclick="AchievementClick()">Buy fiftieth Foreman</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement15" type="button" onclick="AchievementClick()">Buy one hundredth Foreman</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement16" type="button" onclick="AchievementClick()">Buy first Manager</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement17" type="button" onclick="AchievementClick()">Buy tenth Manager</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement18" type="button" onclick="AchievementClick()">Buy twenty fifth Manager</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement19" type="button" onclick="AchievementClick()">Buy fiftieth Manager</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement20" type="button" onclick="AchievementClick()">Buy one hundredth Manager</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement21" type="button" onclick="AchievementClick()">Buy first Middle Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement22" type="button" onclick="AchievementClick()">Buy tenth Middle Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement23" type="button" onclick="AchievementClick()">Buy twenty fifth Middle Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement24" type="button" onclick="AchievementClick()">Buy fiftieth Middle Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement25" type="button" onclick="AchievementClick()">Buy one hundredth Middle Management</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement26" type="button" onclick="AchievementClick()">Buy first Upper Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement27" type="button" onclick="AchievementClick()">Buy tenth Upper Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement28" type="button" onclick="AchievementClick()">Buy twenty fifth Upper Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement29" type="button" onclick="AchievementClick()">Buy fiftieth Upper Management</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement30" type="button" onclick="AchievementClick()">Buy one hundredth Upper Management</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement31" type="button" onclick="AchievementClick()">Buy first Vice President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement32" type="button" onclick="AchievementClick()">Buy tenth Vice President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement33" type="button" onclick="AchievementClick()">Buy twenty fifth Vice President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement34" type="button" onclick="AchievementClick()">Buy fiftieth Vice President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement35" type="button" onclick="AchievementClick()">Buy one hundredth Vice President</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement36" type="button" onclick="AchievementClick()">Buy first President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement37" type="button" onclick="AchievementClick()">Buy tenth President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement38" type="button" onclick="AchievementClick()">Buy twenty fifth President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement39" type="button" onclick="AchievementClick()">Buy fiftieth President</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement40" type="button" onclick="AchievementClick()">Buy one hundredth President</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement41" type="button" onclick="AchievementClick()">Complete first Challenge</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement42" type="button" onclick="AchievementClick()">Complete two Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement43" type="button" onclick="AchievementClick()">Complete four Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement44" type="button" onclick="AchievementClick()">Complete eight Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement45" type="button" onclick="AchievementClick()">Complete sixteen Challenges</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement51" type="button" onclick="AchievementClick()">Complete twenty five Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement52" type="button" onclick="AchievementClick()">Complete fifty Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement53" type="button" onclick="AchievementClick()">Complete one hundred Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement54" type="button" onclick="AchievementClick()">Complete two hundred Challenges</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement55" type="button" onclick="AchievementClick()">Complete five hundred Challenges</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement46" type="button" onclick="AchievementClick()">Complete Wave 1</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement47" type="button" onclick="AchievementClick()">Complete Wave 10</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement48" type="button" onclick="AchievementClick()">Complete Wave 20</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement49" type="button" onclick="AchievementClick()">Complete Wave 30</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement50" type="button" onclick="AchievementClick()">Complete Wave 40</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement56" type="button" onclick="AchievementClick()">Complete Wave 50</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement57" type="button" onclick="AchievementClick()">Complete Wave 60</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement58" type="button" onclick="AchievementClick()">Complete Wave 70</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement59" type="button" onclick="AchievementClick()">Complete Wave 80</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement60" type="button" onclick="AchievementClick()">Complete Wave 90</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement61" type="button" onclick="AchievementClick()">Have attack of 10</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement62" type="button" onclick="AchievementClick()">Have attack of 50</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement63" type="button" onclick="AchievementClick()">Have attack of 100</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement64" type="button" onclick="AchievementClick()">Have attack of 500</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement65" type="button" onclick="AchievementClick()">Have attack of 1000</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement66" type="button" onclick="AchievementClick()">Have attack of 5000</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement67" type="button" onclick="AchievementClick()">Have attack of 10000</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement68" type="button" onclick="AchievementClick()">Have attack of 50000</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement69" type="button" onclick="AchievementClick()">Have attack of 100000</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement70" type="button" onclick="AchievementClick()">Have attack of 500000</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement71" type="button" onclick="AchievementClick()">Pebble Prestige 1 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement72" type="button" onclick="AchievementClick()">Pebble Prestige 10 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement73" type="button" onclick="AchievementClick()">Pebble Prestige 50 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement74" type="button" onclick="AchievementClick()">Pebble Prestige 100 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement75" type="button" onclick="AchievementClick()">Pebble Prestige 500 times</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement76" type="button" onclick="AchievementClick()">Rock Prestige 1 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement77" type="button" onclick="AchievementClick()">Rock Prestige 10 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement78" type="button" onclick="AchievementClick()">Rock Prestige 50 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement79" type="button" onclick="AchievementClick()">Rock Prestige 100 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement80" type="button" onclick="AchievementClick()">Rock Prestige 500 times</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement81" type="button" onclick="AchievementClick()">Pebble Gain 10 per hour</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement82" type="button" onclick="AchievementClick()">Pebble Gain 100 per hour</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement83" type="button" onclick="AchievementClick()">Pebble Gain 1000 per hour</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement84" type="button" onclick="AchievementClick()">Pebble Gain 1e4 per hour</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement85" type="button" onclick="AchievementClick()">Pebble Gain 1e5 per hour</button>
+                </div>
+              </div>
+              <div class="row p-0 m-0 text-light text-small text-center">
+                <div class="col-md-12 p-0 m-0 text-center">
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement86" type="button" onclick="AchievementClick()">Boulder Prestige 1 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement87" type="button" onclick="AchievementClick()">Boulder Prestige 10 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement88" type="button" onclick="AchievementClick()">Boulder Prestige 50 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement89" type="button" onclick="AchievementClick()">Boulder Prestige 100 times</button>
+                  <button class="btn btn-sm achievementbutton btn-danger" id="btnAchievement90" type="button" onclick="AchievementClick()">Boulder Prestige 500 times</button>
+                </div>
+              </div>
+              <div id="tier1div">
+                <div class="row p-0 m-0 text-light text-center">
+                  <div class="col-md-12 p-0 m-0 text-large text-center">Tier 1 Bonus: <span id="tier1bonus">0</span>x</div>
+                </div>
+                <div class="row p-0 m-0 text-light text-small text-center">
+                  <div class="col-md-12 p-0 m-0 text-center">
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn1Tier1" type="button" onclick="AchievementClick()">Complete Tier 1</button>
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn1Tier2" type="button" onclick="AchievementClick()">Complete Tier 1 wth no presidents</button>
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn1Tier3" type="button" onclick="AchievementClick()">Complete Tier 1 wth a challenge active</button>
+                  </div>
+                </div>
+              </div>
+              <div id="tier2div">
+                <div class="row p-0 m-0 text-light text-center">
+                  <div class="col-md-12 p-0 m-0 text-large text-center">Tier 2 Bonus: <span id="tier2bonus">0</span>x</div>
+                </div>
+                <div class="row p-0 m-0 text-light text-small text-center">
+                  <div class="col-md-12 p-0 m-0 text-center">
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn2Tier1" type="button" onclick="AchievementClick()">Complete Tier 2</button>
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn2Tier2" type="button" onclick="AchievementClick()">Complete Tier 2 wth no presidents</button>
+                    <button class="btn btn-sm achievementbutton btn-danger" id="btn2Tier3" type="button" onclick="AchievementClick()">Complete Tier 2 wth a challenge active</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="statisticstab" role="tabpanel" aria-labelledby="statistics-tab" class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px">
+              Highest Wave Reached: <span id="highestwavereached">0</span><br />
+              Current Pebble Prestige Time:<br />
+              <span id="prestige1time">0</span><br />
+              Pebble Prestiges:<br /><span id="prestige1count">0</span><br />
+              Previous 10 Pebble Prestiges: <span id="prestige1history">0</span><br />
+              Current Rock Prestige Time:<br /><span id="prestige2time">0</span><br />
+              Rock Prestiges:<br /><span id="prestige2count">0</span><br />
+              Previous 10 Rock Prestiges: <span id="prestige2history">0</span><br />
+              Current Boulder Prestige Time:<br /><span id="prestige3time">0</span><br />
+              Boulder Prestiges:<br /><span id="prestige3count">0</span><br />
+              Previous 10 Boulder Prestiges: <span id="prestige3history">0</span><br />
+            </div>
+            <div id="optionstab" role="tabpanel" aria-labelledby="options-tab" class="tab-pane fade px-0 py-0 overflow-auto" style="height: 400px">
+              <button class="btn btn-sm btn-primary" id="btnNotation" type="button" onclick="changeNotation()">Notation</button>
+              <button class="btn btn-sm btn-primary" type="button" onclick="myFunction()">Reset</button>
+              <button class="btn btn-sm btn-primary" type="button" onclick="saveGame(new Date())">Save</button>
+              <script>
+                function myFunction() {
+                  if (confirm("Clicking ok will reset your game.  You will lose all progress!")) {
+                    resetGame();
+                  }
+                }
+              </script>
+              <br />
+              Email: <span class="myemail">(need JavaScript for email link)</span><br />
+              latest version:<label class="myemail text-center" id="result">0.7.8</label>
+              <button class="btn btn-sm btn-primary" type="button" onclick="cheat()">loser</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" type="module" src="built/break_infinity.js"></script> -->
+    <script type="text/javascript" type="module" src="built/JBDecimal.js"></script>
+    <script type="text/javascript" type="module" src="built/Resource.js"></script>
+    <script type="text/javascript" type="module" src="built/Purchasable.js"></script>
+    <script type="text/javascript" type="module" src="built/Equipment.js"></script>
+    <script type="text/javascript" type="module" src="built/Derivative.js"></script>
+    <script type="text/javascript" type="module" src="built/saveData.js"></script>
+    <script type="text/javascript" type="module" src="built/Tower.js"></script>
+    <script type="text/javascript" type="module" src="built/Upgrade.js"></script>
+    <script type="text/javascript" type="module" src="built/displayUtils.js"></script>
+    <script type="text/javascript" type="module" src="built/automation.js"></script>
+    <script type="text/javascript" type="module" src="built/challenge.js"></script>
+    <script type="text/javascript" type="module" src="built/achievement.js"></script>
+
+    <script type="text/javascript" type="module" src="built/main.js"></script>
+    <script type="text/javascript" type="module" src="built/email.js"></script>
+  </body>
+</html>
